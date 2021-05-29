@@ -1,0 +1,68 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "thZero.Registry.Services.Discovery";
+
+package discovery;
+
+service Registry {
+  rpc Deregister(DeregisterRequest) returns (DeregisterResponse) {}
+  rpc Get(GetRequest) returns (GetResponse) {}
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+  rpc Register(RegisterRequest) returns (RegisterResponse) {}
+}
+
+message DeregisterRequest {
+  string name = 1;
+}
+
+message DeregisterResponse {
+  bool success = 1;
+}
+
+message GetRequest {
+  string name = 1;
+}
+
+message GetResponse {
+  bool success = 1;
+}
+
+message HealthCheckRequest {
+}
+
+message HealthCheckResponse {
+  bool success = 1;
+}
+
+message DnsRegisterRequest {
+  string label = 1;
+  string namespace = 2;
+  bool local = 3;
+}
+
+message GrpcRegisterRequest {
+  int32 port = 1;
+  bool secure = 2;
+  bool enabled = 3;
+}
+
+message HealthcheckRegisterRequest {
+  string healthCheck = 1;
+  int32 interval = 2;
+  bool enabled = 3;
+  string type = 4;
+}
+
+message RegisterRequest {
+  string name = 1;
+  string address = 2;
+  int32 port = 3;
+  HealthcheckRegisterRequest healthCheck = 4;
+  bool secure = 5;
+  DnsRegisterRequest dns = 6;
+  GrpcRegisterRequest grpc = 7;
+}
+
+message RegisterResponse {
+  bool success = 1;
+}

@@ -1,0 +1,16 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "thZero.Registry.Services.Discovery.HealthCheck";
+
+package healthCheck;
+
+service HealthCheck {
+  rpc Perform(HealthCheckRequest) returns (HealthCheckResponse) {}
+}
+
+message HealthCheckRequest {
+}
+
+message HealthCheckResponse {
+  bool success = 1;
+}

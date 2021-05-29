@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <DockerComposeProjectPath>docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>b89f37bc-c01f-47c8-9b1a-a76ce83a9919</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Protos\healthcheck.proto" />
+    <None Remove="Protos\registry.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.17.2" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.37.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.38.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Makaretu.Dns.Multicast" Version="0.27.0" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4" />
+    <PackageReference Include="System.Linq.Async" Version="5.0.0" />
+	  <PackageReference Include="Grpc.AspNetCore" Version="2.37.0" />
+	  <PackageReference Include="Zeroconf" Version="3.4.2" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\healthcheck.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\registry.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\thZero.NetCore.Library.Asp.Swagger\thZero.NetCore.Library.Asp.Swagger.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Data.Repository\thZero.NetCore.Library.Data.Repository.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Services.Json.Newtonsoft\thZero.NetCore.Library.Services.Json.Newtonsoft.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library\thZero.NetCore.Library.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Asp.Instrumentation.Healthchecks\thZero.NetCore.Library.Asp.Instrumentation.Healthchecks.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Asp.Instrumentation.Steeltoe\thZero.NetCore.Library.Asp.Instrumentation.Steeltoe.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Asp.Instrumentation\thZero.NetCore.Library.Asp.Instrumentation.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Asp.Security.NWebSec\thZero.NetCore.Library.Asp.Security.NWebSec.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Asp\thZero.NetCore.Library.Asp.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.CircuitBreaker.Steeltoe\thZero.NetCore.Library.CircuitBreaker.Steeltoe.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Data.Annotations\thZero.NetCore.Library.Data.Annotations.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Data\thZero.NetCore.Library.Data.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Factories.DryIoc\thZero.NetCore.Library.Factories.DryIoc.csproj" />
+    <ProjectReference Include="..\thZero.NetCore.Library.Services.Localization\thZero.NetCore.Library.Services.Localization.csproj" />
+  </ItemGroup>
+
+</Project>
