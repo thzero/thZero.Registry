@@ -19,15 +19,15 @@ limitations under the License.
 
 using System;
 using System.Collections.Generic;
-using System.Threading;
+//using System.Threading;
 using System.Threading.Tasks;
 
-using Makaretu.Dns;
+//using Makaretu.Dns;
 
 using thZero.Instrumentation;
 using thZero.Registry.Data;
 using thZero.Registry.Services.Discovery.HealthCheck;
-using thZero.Responses;
+//using thZero.Responses;
 
 namespace thZero.Registry.Services.Discovery.Utilities
 {
@@ -74,13 +74,13 @@ namespace thZero.Registry.Services.Discovery.Utilities
                 //    }
                 //}
                 //else
-                {
+                //{
                     if (!String.IsNullOrEmpty(registry.Dns.Namespace))
                         temp.Add(registry.Dns.Namespace);
                     if (registry.Dns.Local)
                         temp.Add("local");
                     address = String.Join('.', temp);
-                }
+                //}
             }
 
             registry.Authentication = registry.Authentication;
