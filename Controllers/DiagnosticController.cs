@@ -77,7 +77,7 @@ namespace thZero.Registry.Controllers
         }
 
 #if DEBUG
-        [Authorize]
+        [AllowAnonymous]
         [Route("diagnostics/mappings")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Mappings([FromServices] ISteeltoeInstrumentationControllerExtension service)
@@ -97,8 +97,10 @@ namespace thZero.Registry.Controllers
 
             return new StatusCodeResult((int)System.Net.HttpStatusCode.ServiceUnavailable);
         }
+#endif
 
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         [Route("diagnostics/metrics")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Metrics([FromServices] ISteeltoeInstrumentationControllerExtension service)
@@ -118,6 +120,5 @@ namespace thZero.Registry.Controllers
 
             return new StatusCodeResult((int)System.Net.HttpStatusCode.ServiceUnavailable);
         }
-#endif
     }
 }
