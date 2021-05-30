@@ -35,7 +35,7 @@ using thZero.AspNetCore;
 using thZero.Configuration;
 using thZero.DependencyInjection;
 using thZero.Services;
-using thZero.Registry.Services.Discovery;
+using thZero.Registry.Services;
 using thZero.Instrumentation;
 
 namespace thZero.Registry
@@ -64,7 +64,7 @@ namespace thZero.Registry
             //app.UseAuthentication();
 
             IInstrumentationPacket packet = (IInstrumentationPacket)svp.GetRequiredService(typeof(IInstrumentationPacket));
-            IStaticResourcesDiscoveryService staticResourcesService = (IStaticResourcesDiscoveryService)svp.GetRequiredService(typeof(IStaticResourcesDiscoveryService));
+            IStaticResourcesRegistryService staticResourcesService = (IStaticResourcesRegistryService)svp.GetRequiredService(typeof(IStaticResourcesRegistryService));
             thZero.Utilities.Background.Run(async () =>
             {
                 await staticResourcesService.LoadAsync(packet);
@@ -82,7 +82,7 @@ namespace thZero.Registry
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            endpointsRouteBuilder.MapGrpcService<GrpcDiscoveryService>();
+            endpointsRouteBuilder.MapGrpcService<GrpcRegistryService>();
 
             base.ConfigureInitializeRoutingEndpointsRouteBuilder(endpointsRouteBuilder);
         }
@@ -188,19 +188,18 @@ namespace thZero.Registry
         {
             base.ConfigureServicesInitializeMvcPost(services, env, configuration);
 
-            services.AddSingleton<Services.Discovery.IDiscoveryService, Services.Discovery.DiscoveryService>();
-            services.AddSingleton<Services.Discovery.IStaticResourcesDiscoveryService, Services.Discovery.StaticResourcesDiscoveryService>();
-            services.AddSingleton<Repository.Discovery.IDiscoveryRepository, Repository.Discovery.MemDiscoveryRepository>();
+            services.AddSingleton<Services.IRegistryService, Services.RegistryService>();
+            services.AddSingleton<Services.IStaticResourcesRegistryService, Services.StaticResourcesRegistryService>();
+            services.AddSingleton<Repository.IRegistryRepository, Repository.MemRegistryRepository>();
 
-            services.AddSingleton<Services.Discovery.HealthCheck.IHealthCheckDiscoveryService, Services.Discovery.HealthCheck.HealthCheckDiscoveryService>();
-            services.AddSingleton<Services.Discovery.HealthCheck.GrpcPerformHealthCheckDiscoveryService, Services.Discovery.HealthCheck.GrpcPerformHealthCheckDiscoveryService>();
-            services.AddSingleton<Services.Discovery.HealthCheck.HttpPerformHealthCheckDiscoveryService, Services.Discovery.HealthCheck.HttpPerformHealthCheckDiscoveryService>();
+            services.AddSingleton<Services.HealthCheck.IHealthCheckRegistryService, Services.HealthCheck.HealthCheckRegistryService>();
+            services.AddSingleton<Services.HealthCheck.GrpcPerformHealthCheckRegistryService, Services.HealthCheck.GrpcPerformHealthCheckRegistryService>();
+            services.AddSingleton<Services.HealthCheck.HttpPerformHealthCheckRegistryService, Services.HealthCheck.HttpPerformHealthCheckRegistryService>();
 
             services.AddSingleton<IServiceJson, ServiceJsonNewtonsoft>();
-            //services.AddSingleton<IServiceStopwatchHelper, ServiceStopwatchHelper>();
 
-            services.AddHostedService<Services.Discovery.BackgroundDiscoveryServicer>();
-            services.AddHostedService<Services.Discovery.HealthCheck.BackgroundHealthCheckDiscoveryService>();
+            services.AddHostedService<Services.BackgroundDiscoveryServicer>();
+            services.AddHostedService<Services.HealthCheck.BackgroundHealthCheckRegistryService>();
         }
 
         #endregion
@@ -221,7 +220,6 @@ namespace thZero.Registry
         private void ConfigureServicesInitializeFactoryUtility()
         {
             Factory.Instance.AddSingleton<IServiceJson, ServiceJsonNewtonsoftFactory>();
-            //Factory.Instance.AddSingleton<Services.IServiceStopwatchHelper, Services.ServiceStopwatchHelperFactory>();
         }
         #endregion
     }
@@ -231,7 +229,7 @@ namespace thZero.Registry
         #region Protected Methods
         protected override void ConfigureInitializeSwaggerUI(SwaggerUIOptions options)
         {
-            SwaggerEndpoint(options, "Registry", Constants.ApiGroups.RegistryV1);
+            SwaggerEndpoint(options, "Registry", thZero.Registry.Constants.ApiGroups.RegistryV1);
         }
 
         public override void ConfigureServicesInitializeMvcBuilderOptionsPre(MvcOptions options)
@@ -243,7 +241,7 @@ namespace thZero.Registry
         {
             String name = GetType().Assembly.GetName().Name;
 
-            options.SwaggerDoc(Constants.ApiGroups.RegistryV1,
+            options.SwaggerDoc(thZero.Registry.Constants.ApiGroups.RegistryV1,
                 new OpenApiInfo
                 {
                     Version = "v1",

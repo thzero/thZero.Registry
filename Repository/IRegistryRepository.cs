@@ -18,14 +18,24 @@ limitations under the License.
  * ------------------------------------------------------------------------- */
 
 using System;
+using System.Threading.Tasks;
 
-namespace thZero.Registry.Constants.Services.Discovery.HealthCheck
+using thZero.Instrumentation;
+using thZero.Registry.Requests;
+using thZero.Registry.Responses;
+using thZero.Responses;
+
+namespace thZero.Registry.Repository
 {
-    public class ServiceType
+    public interface IRegistryRepository
     {
-        #region Constants
-        public const string Grpc = "grpc";
-        public const string Http = "http";
-        #endregion
+        Task<SuccessResponse> CleanupAsync(IInstrumentationPacket packet, long cleanupInterval);
+        Task<SuccessResponse> DeregisterAsync(IInstrumentationPacket packet, RegistryRequest request);
+
+        Task<RegistrySuccessResponse> GetAsync(IInstrumentationPacket packet, RegistryRequest request);
+
+        Task<ListingRegistrySuccessResponse> ListingAsync(IInstrumentationPacket packet, ListingRegistryRequest request);
+
+        Task<SuccessResponse> RegistryAsync(IInstrumentationPacket packet, RegisterRegistryRequest request);
     }
 }

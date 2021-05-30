@@ -20,29 +20,14 @@ limitations under the License.
 using System;
 using System.Threading.Tasks;
 
-using Grpc.Core;
+using thZero.Instrumentation;
+using thZero.Registry.Data;
+using thZero.Responses;
 
-using Microsoft.Extensions.Logging;
-
-namespace thZero.Registry.Services.Discovery
+namespace thZero.Registry.Services.HealthCheck
 {
-    public class GrpcDiscoveryService : Registry.RegistryBase
+    public interface IPerformHealthCheckRegistryService
     {
-        public GrpcDiscoveryService(ILogger<GrpcDiscoveryService> logger)
-        {
-            _logger = logger;
-        }
-
-        public override Task<RegisterResponse> Register(RegisterRequest request, ServerCallContext context)
-        {
-            return Task.FromResult(new RegisterResponse
-            {
-                Success = true
-            });
-        }
-
-        #region Fields
-        private readonly ILogger<GrpcDiscoveryService> _logger;
-        #endregion
+        Task<SuccessResponse> Perform(IInstrumentationPacket packet, RegistryData registry);
     }
 }

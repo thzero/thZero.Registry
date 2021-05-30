@@ -24,17 +24,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using thZero.Instrumentation;
-using thZero.Registry.Repository.Discovery;
+using thZero.Registry.Repository;
 using thZero.Registry.Requests;
 using thZero.Registry.Responses;
 using thZero.Responses;
 using thZero.Services;
 
-namespace thZero.Registry.Services.Discovery
+namespace thZero.Registry.Services
 {
-    public sealed class DiscoveryService : ConfigServiceBase<DiscoveryService, Configuration.Application>, IDiscoveryService
+    public sealed class RegistryService : ConfigServiceBase<RegistryService, Configuration.Application>, IRegistryService
     {
-        public DiscoveryService(IDiscoveryRepository repository, IOptions<Configuration.Application> config, ILogger<DiscoveryService> logger) : base(config, logger)
+        public RegistryService(IRegistryRepository repository, IOptions<Configuration.Application> config, ILogger<RegistryService> logger) : base(config, logger)
         {
             _repository = repository;
         }
@@ -55,14 +55,14 @@ namespace thZero.Registry.Services.Discovery
             return await _repository.DeregisterAsync(packet, request);
         }
 
-        public async Task<DiscoverySuccessResponse> Get(IInstrumentationPacket packet, RegistryRequest request)
+        public async Task<RegistrySuccessResponse> Get(IInstrumentationPacket packet, RegistryRequest request)
         {
             Enforce.AgainstNull(() => packet);
 
             return await _repository.GetAsync(packet, request);
         }
 
-        public async Task<ListingDiscoverySuccessResponse> Listing(IInstrumentationPacket packet, ListingRegistryRequest request)
+        public async Task<ListingRegistrySuccessResponse> Listing(IInstrumentationPacket packet, ListingRegistryRequest request)
         {
             Enforce.AgainstNull(() => packet);
 
@@ -78,7 +78,7 @@ namespace thZero.Registry.Services.Discovery
         #endregion
 
         #region Fields
-        private readonly IDiscoveryRepository _repository;
+        private readonly IRegistryRepository _repository;
         #endregion
     }
 }

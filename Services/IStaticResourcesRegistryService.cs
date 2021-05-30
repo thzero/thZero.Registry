@@ -21,13 +21,13 @@ using System;
 using System.Threading.Tasks;
 
 using thZero.Instrumentation;
-using thZero.Registry.Data;
+using thZero.Registry.Requests;
 using thZero.Responses;
 
-namespace thZero.Registry.Services.Discovery.HealthCheck
+namespace thZero.Registry.Services
 {
-    public interface IPerformHealthCheckDiscoveryService
+    public interface IStaticResourcesRegistryService
     {
-        Task<SuccessResponse> Perform(IInstrumentationPacket packet, RegistryData registry);
+        Task<SuccessResponse> LoadAsync(IInstrumentationPacket packet);
     }
 }

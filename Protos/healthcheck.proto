@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "thZero.Registry.Services.Discovery.HealthCheck";
+option csharp_namespace = "thZero.Registry.Services.HealthCheck";
 
 package healthCheck;
 
