@@ -23,9 +23,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+using thZero.AspNetCore;
 using thZero.AspNetCore.Mvc;
 using thZero.Registry.Requests;
-using thZero.Responses;
+using thZero.Utilities;
 
 namespace thZero.Registry.Controllers
 {
@@ -42,31 +43,111 @@ namespace thZero.Registry.Controllers
         [HttpDelete]
         public async Task<IActionResult> Deregister([FromQuery] RegistryRequest request)
         {
-            var results = ModelState.IsValid;
-            return JsonDelete(await _discoveryService.Deregister(Instrumentation, request));
+            const string Declaration = "Deregister";
+
+            StopwatchTiming duration = null;
+            try
+            {
+                duration = Stopwatch.Start(Declaration);
+
+                await InitializeJsonPostResultAsync(request, null, async (model) =>
+                {
+                    return JsonDelete(await _discoveryService.Deregister(Instrumentation, request));
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogError(Declaration, ex);
+            }
+            finally
+            {
+                Stopwatch.StopLog(duration);
+            }
+
+            return JsonDelete(Error());
         }
 
         [Route("listing")]
         [HttpPost]
         public async Task<IActionResult> Listing(ListingRegistryRequest request)
         {
-            var results = ModelState.IsValid;
-            return JsonPost(await _discoveryService.Listing(Instrumentation, request));
+            const string Declaration = "Listing";
+
+            StopwatchTiming duration = null;
+            try
+            {
+                duration = Stopwatch.Start(Declaration);
+
+                await InitializeJsonPostResultAsync(request, null, async (model) =>
+                {
+                    return JsonPost(await _discoveryService.Listing(Instrumentation, request));
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogError(Declaration, ex);
+            }
+            finally
+            {
+                Stopwatch.StopLog(duration);
+            }
+
+            return JsonPost(Error());
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterRegistryRequest request)
         {
-            var results = ModelState.IsValid;
-            return JsonPost(await _discoveryService.Register(Instrumentation, request));
+            const string Declaration = "Register";
+
+            StopwatchTiming duration = null;
+            try
+            {
+                duration = Stopwatch.Start(Declaration);
+
+                await InitializeJsonPostResultAsync(request, null, async (model) =>
+                {
+                    return JsonPost(await _discoveryService.Register(Instrumentation, request));
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogError(Declaration, ex);
+            }
+            finally
+            {
+                Stopwatch.StopLog(duration);
+            }
+
+            return JsonPost(Error());
         }
 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] RegistryRequest request)
         {
-            var results = ModelState.IsValid;
-            return JsonGet(await _discoveryService.Get(Instrumentation, request));
+            const string Declaration = "Get";
+
+            StopwatchTiming duration = null;
+            try
+            {
+                duration = Stopwatch.Start(Declaration);
+
+                await InitializeJsonGetResultAsync(request, null, async (model) =>
+                {
+                    return JsonGet(await _discoveryService.Get(Instrumentation, request));
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogError(Declaration, ex);
+            }
+            finally
+            {
+                Stopwatch.StopLog(duration);
+            }
+
+            return JsonGet(Error());
         }
 
         private readonly Services.Discovery.IDiscoveryService _discoveryService;

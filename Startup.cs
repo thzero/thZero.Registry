@@ -231,7 +231,7 @@ namespace thZero.Registry
         #region Protected Methods
         protected override void ConfigureInitializeSwaggerUI(SwaggerUIOptions options)
         {
-            SwaggerEndpoint(options, "Registry", Constants.ApiGroups.RegistryV1);
+            SwaggerEndpoint(options, "Registry", thZero.Registry.Constants.ApiGroups.RegistryV1);
         }
 
         public override void ConfigureServicesInitializeMvcBuilderOptionsPre(MvcOptions options)
@@ -243,7 +243,7 @@ namespace thZero.Registry
         {
             String name = GetType().Assembly.GetName().Name;
 
-            options.SwaggerDoc(Constants.ApiGroups.RegistryV1,
+            options.SwaggerDoc(thZero.Registry.Constants.ApiGroups.RegistryV1,
                 new OpenApiInfo
                 {
                     Version = "v1",
