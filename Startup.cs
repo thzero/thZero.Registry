@@ -197,7 +197,6 @@ namespace thZero.Registry
             services.AddSingleton<Services.Discovery.HealthCheck.HttpPerformHealthCheckDiscoveryService, Services.Discovery.HealthCheck.HttpPerformHealthCheckDiscoveryService>();
 
             services.AddSingleton<IServiceJson, ServiceJsonNewtonsoft>();
-            //services.AddSingleton<IServiceStopwatchHelper, ServiceStopwatchHelper>();
 
             services.AddHostedService<Services.Discovery.BackgroundDiscoveryServicer>();
             services.AddHostedService<Services.Discovery.HealthCheck.BackgroundHealthCheckDiscoveryService>();
@@ -221,7 +220,6 @@ namespace thZero.Registry
         private void ConfigureServicesInitializeFactoryUtility()
         {
             Factory.Instance.AddSingleton<IServiceJson, ServiceJsonNewtonsoftFactory>();
-            //Factory.Instance.AddSingleton<Services.IServiceStopwatchHelper, Services.ServiceStopwatchHelperFactory>();
         }
         #endregion
     }
