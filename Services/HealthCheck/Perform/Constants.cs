@@ -19,13 +19,13 @@ limitations under the License.
 
 using System;
 
-using thZero.Registry.Data;
-using thZero.Responses;
-
-namespace thZero.Registry.Responses
+namespace thZero.Registry.Constants.Services.HealthCheck
 {
-    public class DiscoverySuccessResponse : SuccessResponse
+    public class ServiceType
     {
-        public RegistryData Registry { get; set; }
+        #region Constants
+        public const string Grpc = "grpc";
+        public const string Http = "http";
+        #endregion
     }
 }

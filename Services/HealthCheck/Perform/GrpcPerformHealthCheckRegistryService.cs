@@ -31,11 +31,11 @@ using thZero.Responses;
 using thZero.Services;
 using System.Threading;
 
-namespace thZero.Registry.Services.Discovery.HealthCheck
+namespace thZero.Registry.Services.HealthCheck
 {
-    public sealed class GrpcPerformHealthCheckDiscoveryService : PerformHealthCheckDiscoveryService<GrpcPerformHealthCheckDiscoveryService>, IPerformHealthCheckDiscoveryService
+    public sealed class GrpcPerformHealthCheckRegistryService : PerformHealthCheckRegistryService<GrpcPerformHealthCheckRegistryService>, IPerformHealthCheckRegistryService
     {
-        public GrpcPerformHealthCheckDiscoveryService(IOptions<Configuration.Application> config, ILogger<GrpcPerformHealthCheckDiscoveryService> logger) : base(config, logger)
+        public GrpcPerformHealthCheckRegistryService(IOptions<Configuration.Application> config, ILogger<GrpcPerformHealthCheckRegistryService> logger) : base(config, logger)
         {
         }
 

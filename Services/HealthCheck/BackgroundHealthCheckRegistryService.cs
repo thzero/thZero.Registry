@@ -27,11 +27,11 @@ using Microsoft.Extensions.Options;
 
 using thZero.Instrumentation;
 
-namespace thZero.Registry.Services.Discovery
+namespace thZero.Registry.Services.HealthCheck
 {
-    public class BackgroundDiscoveryServicer : IHostedService, IDisposable
+    public class BackgroundHealthCheckRegistryService : IHostedService, IDisposable
     {
-        public BackgroundDiscoveryServicer(IDiscoveryService service, IOptions<Configuration.Application> config, IServiceProvider provider, ILogger<BackgroundDiscoveryServicer> logger)
+        public BackgroundHealthCheckRegistryService(IHealthCheckRegistryService service, IOptions<Configuration.Application> config, IServiceProvider provider, ILogger<BackgroundHealthCheckRegistryService> logger)
         {
             _config = config.Value;
             _logger = logger;
@@ -47,12 +47,12 @@ namespace thZero.Registry.Services.Discovery
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            int heartbeatInterval = _config.Registry?.Discovery?.HeartbeatInterval > 0 ? _config.Registry.Discovery.HeartbeatInterval : 45;
+            int heartbeatInterval = _config.Registry?.HealthCheck?.HeartbeatInterval > 0 ? _config.Registry.HealthCheck.HeartbeatInterval : 45;
             _timer = new Timer(o => {
                 Task.Run(async () => {
                     try
                     {
-                        await _service.CleanupAsync((IInstrumentationPacket)_provider?.GetService(typeof(IInstrumentationPacket)));
+                        await _service.PerformAsync((IInstrumentationPacket)_provider?.GetService(typeof(IInstrumentationPacket)));
                     }
                     catch (Exception ex)
                     {
@@ -75,9 +75,9 @@ namespace thZero.Registry.Services.Discovery
 
         #region Fields
         private readonly Configuration.Application _config;
-        private readonly ILogger<BackgroundDiscoveryServicer> _logger;
+        private readonly ILogger<BackgroundHealthCheckRegistryService> _logger;
         private readonly IServiceProvider _provider;
-        private readonly IDiscoveryService _service;
+        private readonly IHealthCheckRegistryService _service;
         private Timer _timer;
         #endregion
     }

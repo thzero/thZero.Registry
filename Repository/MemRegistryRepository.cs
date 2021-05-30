@@ -33,11 +33,11 @@ using thZero.Registry.Requests;
 using thZero.Registry.Responses;
 using thZero.Responses;
 
-namespace thZero.Registry.Repository.Discovery
+namespace thZero.Registry.Repository
 {
-    public class MemDiscoveryRepository : RepositoryBase<MemDiscoveryRepository>, IDiscoveryRepository
+    public class MemRegistryRepository : RepositoryBase<MemRegistryRepository>, IRegistryRepository
     {
-        public MemDiscoveryRepository(ILogger<MemDiscoveryRepository> logger) : base(logger)
+        public MemRegistryRepository(ILogger<MemRegistryRepository> logger) : base(logger)
         {
         }
 
@@ -101,21 +101,21 @@ namespace thZero.Registry.Repository.Discovery
             return await Task.FromResult(Success());
         }
 
-        public async Task<DiscoverySuccessResponse> GetAsync(IInstrumentationPacket packet, RegistryRequest request)
+        public async Task<RegistrySuccessResponse> GetAsync(IInstrumentationPacket packet, RegistryRequest request)
         {
             Enforce.AgainstNull(() => packet);
             Enforce.AgainstNull(() => request);
 
             if (!_registry.ContainsKey(request.Name))
-                return Error(new DiscoverySuccessResponse());
+                return Error(new RegistrySuccessResponse());
 
-            DiscoverySuccessResponse response = new();
+            RegistrySuccessResponse response = new();
             response.Registry = _registry[request.Name];
 
             return await Task.FromResult(response);
         }
 
-        public async Task<ListingDiscoverySuccessResponse> ListingAsync(IInstrumentationPacket packet, ListingRegistryRequest request)
+        public async Task<ListingRegistrySuccessResponse> ListingAsync(IInstrumentationPacket packet, ListingRegistryRequest request)
         {
             Enforce.AgainstNull(() => packet);
             Enforce.AgainstNull(() => request);
@@ -125,7 +125,7 @@ namespace thZero.Registry.Repository.Discovery
             if (request.HealthCheck ?? false)
                 values = values.Where(l => (l.HealthCheck != null) && l.HealthCheck.Enabled);
 
-            ListingDiscoverySuccessResponse response = new()
+            ListingRegistrySuccessResponse response = new()
             {
                 Data = values.ToList()
             };

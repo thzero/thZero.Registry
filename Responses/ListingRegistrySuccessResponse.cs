@@ -18,29 +18,14 @@ limitations under the License.
  * ------------------------------------------------------------------------- */
 
 using System;
+using System.Collections.Generic;
 
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using thZero.Registry.Data;
+using thZero.Responses;
 
-using thZero.Services;
-
-namespace thZero.Registry.Services.Discovery.HealthCheck
+namespace thZero.Registry.Responses
 {
-    public abstract class PerformHealthCheckDiscoveryService<TService> : ConfigServiceBase<TService, Configuration.Application>
+    public class ListingRegistrySuccessResponse : SuccessResponse<ICollection<RegistryData>>
     {
-        public PerformHealthCheckDiscoveryService(IOptions<Configuration.Application> config, ILogger<TService> logger) : base(config, logger)
-        {
-        }
-
-        #region Protected Properties
-        protected int Timeout
-        {
-            get
-            {
-                int? timeout = Config?.Registry?.HealthCheck?.HeartbeatInterval;
-                return timeout.HasValue && timeout.Value > 0 ? timeout.Value : 5;
-            }
-        }
-        #endregion
     }
 }

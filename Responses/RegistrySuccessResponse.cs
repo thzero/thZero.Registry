@@ -18,14 +18,14 @@ limitations under the License.
  * ------------------------------------------------------------------------- */
 
 using System;
-using System.Collections.Generic;
 
 using thZero.Registry.Data;
 using thZero.Responses;
 
 namespace thZero.Registry.Responses
 {
-    public class ListingDiscoverySuccessResponse : SuccessResponse<ICollection<RegistryData>>
+    public class RegistrySuccessResponse : SuccessResponse
     {
+        public RegistryData Registry { get; set; }
     }
 }

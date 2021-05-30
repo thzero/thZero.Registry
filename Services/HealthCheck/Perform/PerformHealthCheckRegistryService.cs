@@ -18,24 +18,29 @@ limitations under the License.
  * ------------------------------------------------------------------------- */
 
 using System;
-using System.Threading.Tasks;
 
-using thZero.Instrumentation;
-using thZero.Registry.Requests;
-using thZero.Registry.Responses;
-using thZero.Responses;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace thZero.Registry.Repository.Discovery
+using thZero.Services;
+
+namespace thZero.Registry.Services.HealthCheck
 {
-    public interface IDiscoveryRepository
+    public abstract class PerformHealthCheckRegistryService<TService> : ConfigServiceBase<TService, Configuration.Application>
     {
-        Task<SuccessResponse> CleanupAsync(IInstrumentationPacket packet, long cleanupInterval);
-        Task<SuccessResponse> DeregisterAsync(IInstrumentationPacket packet, RegistryRequest request);
+        public PerformHealthCheckRegistryService(IOptions<Configuration.Application> config, ILogger<TService> logger) : base(config, logger)
+        {
+        }
 
-        Task<DiscoverySuccessResponse> GetAsync(IInstrumentationPacket packet, RegistryRequest request);
-
-        Task<ListingDiscoverySuccessResponse> ListingAsync(IInstrumentationPacket packet, ListingRegistryRequest request);
-
-        Task<SuccessResponse> RegistryAsync(IInstrumentationPacket packet, RegisterRegistryRequest request);
+        #region Protected Properties
+        protected int Timeout
+        {
+            get
+            {
+                int? timeout = Config?.Registry?.HealthCheck?.HeartbeatInterval;
+                return timeout.HasValue && timeout.Value > 0 ? timeout.Value : 5;
+            }
+        }
+        #endregion
     }
 }

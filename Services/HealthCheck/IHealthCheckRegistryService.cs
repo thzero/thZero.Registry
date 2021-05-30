@@ -21,22 +21,12 @@ using System;
 using System.Threading.Tasks;
 
 using thZero.Instrumentation;
-using thZero.Registry.Requests;
-using thZero.Registry.Responses;
 using thZero.Responses;
 
-namespace thZero.Registry.Services.Discovery
+namespace thZero.Registry.Services.HealthCheck
 {
-    public interface IDiscoveryService
+    public interface IHealthCheckRegistryService
     {
-        Task<SuccessResponse> CleanupAsync(IInstrumentationPacket packet);
-
-        Task<SuccessResponse> Deregister(IInstrumentationPacket packet, RegistryRequest request);
-
-        Task<DiscoverySuccessResponse> Get(IInstrumentationPacket packet, RegistryRequest request);
-
-        Task<ListingDiscoverySuccessResponse> Listing(IInstrumentationPacket packet, ListingRegistryRequest request);
-
-        Task<SuccessResponse> Register(IInstrumentationPacket packet, RegisterRegistryRequest request);
+        Task<SuccessResponse> PerformAsync(IInstrumentationPacket packet);
     }
 }

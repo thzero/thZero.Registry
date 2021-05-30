@@ -22,12 +22,21 @@ using System.Threading.Tasks;
 
 using thZero.Instrumentation;
 using thZero.Registry.Requests;
+using thZero.Registry.Responses;
 using thZero.Responses;
 
-namespace thZero.Registry.Services.Discovery
+namespace thZero.Registry.Services
 {
-    public interface IStaticResourcesDiscoveryService
+    public interface IRegistryService
     {
-        Task<SuccessResponse> LoadAsync(IInstrumentationPacket packet);
+        Task<SuccessResponse> CleanupAsync(IInstrumentationPacket packet);
+
+        Task<SuccessResponse> Deregister(IInstrumentationPacket packet, RegistryRequest request);
+
+        Task<RegistrySuccessResponse> Get(IInstrumentationPacket packet, RegistryRequest request);
+
+        Task<ListingRegistrySuccessResponse> Listing(IInstrumentationPacket packet, ListingRegistryRequest request);
+
+        Task<SuccessResponse> Register(IInstrumentationPacket packet, RegisterRegistryRequest request);
     }
 }

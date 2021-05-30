@@ -30,11 +30,11 @@ using thZero.Instrumentation;
 using thZero.Registry.Data;
 using thZero.Responses;
 
-namespace thZero.Registry.Services.Discovery.HealthCheck
+namespace thZero.Registry.Services.HealthCheck
 {
-    public sealed class HttpPerformHealthCheckDiscoveryService : PerformHealthCheckDiscoveryService<HttpPerformHealthCheckDiscoveryService>, IPerformHealthCheckDiscoveryService
+    public sealed class HttpPerformHealthCheckRegistryService : PerformHealthCheckRegistryService<HttpPerformHealthCheckRegistryService>, IPerformHealthCheckRegistryService
     {
-        public HttpPerformHealthCheckDiscoveryService(IOptions<Configuration.Application> config, ILogger<HttpPerformHealthCheckDiscoveryService> logger) : base(config, logger)
+        public HttpPerformHealthCheckRegistryService(IOptions<Configuration.Application> config, ILogger<HttpPerformHealthCheckRegistryService> logger) : base(config, logger)
         {
             _client.Timeout = TimeSpan.FromSeconds(15);
             _client.DefaultRequestHeaders.Accept.Clear();

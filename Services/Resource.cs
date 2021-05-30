@@ -26,10 +26,10 @@ using System.Threading.Tasks;
 
 using thZero.Instrumentation;
 using thZero.Registry.Data;
-using thZero.Registry.Services.Discovery.HealthCheck;
+using thZero.Registry.Services.HealthCheck;
 //using thZero.Responses;
 
-namespace thZero.Registry.Services.Discovery.Utilities
+namespace thZero.Registry.Services.Utilities
 {
     public class Resources
     {

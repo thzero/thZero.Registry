@@ -27,16 +27,16 @@ using Microsoft.Extensions.Options;
 
 using thZero.Instrumentation;
 using thZero.Registry.Data;
-using thZero.Registry.Repository.Discovery;
+using thZero.Registry.Repository;
 using thZero.Registry.Requests;
 using thZero.Responses;
 using thZero.Services;
 
-namespace thZero.Registry.Services.Discovery
+namespace thZero.Registry.Services
 {
-    public sealed class StaticResourcesDiscoveryService : ConfigServiceBase<StaticResourcesDiscoveryService, Configuration.Application>, IStaticResourcesDiscoveryService
+    public sealed class StaticResourcesRegistryService : ConfigServiceBase<StaticResourcesRegistryService, Configuration.Application>, IStaticResourcesRegistryService
     {
-        public StaticResourcesDiscoveryService(IDiscoveryRepository repository, IOptions<Configuration.Application> config, ILogger<StaticResourcesDiscoveryService> logger) : base(config, logger)
+        public StaticResourcesRegistryService(IRegistryRepository repository, IOptions<Configuration.Application> config, ILogger<StaticResourcesRegistryService> logger) : base(config, logger)
         {
             _repository = repository;
         }
@@ -62,7 +62,7 @@ namespace thZero.Registry.Services.Discovery
         #endregion
 
         #region Fields
-        private readonly IDiscoveryRepository _repository;
+        private readonly IRegistryRepository _repository;
         #endregion
     }
 }

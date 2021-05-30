@@ -35,7 +35,7 @@ namespace thZero.Registry.Controllers
     [Route("v1/api/[controller]")]
     public class RegistryController : BaseController<RegistryController>
     {
-        public RegistryController(Services.Discovery.IDiscoveryService discoveryService, ILogger<RegistryController> logger) : base(logger)
+        public RegistryController(Services.IRegistryService discoveryService, ILogger<RegistryController> logger) : base(logger)
         {
             _discoveryService = discoveryService;
         }
@@ -150,6 +150,6 @@ namespace thZero.Registry.Controllers
             return JsonGet(Error());
         }
 
-        private readonly Services.Discovery.IDiscoveryService _discoveryService;
+        private readonly Services.IRegistryService _discoveryService;
     }
 }

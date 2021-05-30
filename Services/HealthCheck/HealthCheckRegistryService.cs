@@ -29,17 +29,17 @@ using Nito.AsyncEx;
 
 using thZero.Instrumentation;
 using thZero.Registry.Data;
-using thZero.Registry.Repository.Discovery;
+using thZero.Registry.Repository;
 using thZero.Registry.Requests;
 using thZero.Registry.Responses;
 using thZero.Responses;
 using thZero.Services;
 
-namespace thZero.Registry.Services.Discovery.HealthCheck
+namespace thZero.Registry.Services.HealthCheck
 {
-    public sealed class HealthCheckDiscoveryService : ConfigServiceBase<HealthCheckDiscoveryService, Configuration.Application>, IHealthCheckDiscoveryService
+    public sealed class HealthCheckRegistryService : ConfigServiceBase<HealthCheckRegistryService, Configuration.Application>, IHealthCheckRegistryService
     {
-        public HealthCheckDiscoveryService(IDiscoveryRepository repository, IOptions<Configuration.Application> config, IServiceProvider provider, ILogger<HealthCheckDiscoveryService> logger) : base(config, logger)
+        public HealthCheckRegistryService(IRegistryRepository repository, IOptions<Configuration.Application> config, IServiceProvider provider, ILogger<HealthCheckRegistryService> logger) : base(config, logger)
         {
             _repository = repository;
 
@@ -53,7 +53,7 @@ namespace thZero.Registry.Services.Discovery.HealthCheck
 
             Logger.LogInformation("HEARTBEAT for HEALTHCHECK");
 
-            ListingDiscoverySuccessResponse listResponse = await _repository.ListingAsync(packet, new ListingRegistryRequest()
+            ListingRegistrySuccessResponse listResponse = await _repository.ListingAsync(packet, new ListingRegistryRequest()
             {
                 HealthCheck = true
             });
@@ -94,8 +94,8 @@ namespace thZero.Registry.Services.Discovery.HealthCheck
                 if (Initialized)
                     return;
 
-                _services.Add(Constants.Services.Discovery.HealthCheck.ServiceType.Grpc, (IPerformHealthCheckDiscoveryService)GetService(provider, typeof(GrpcPerformHealthCheckDiscoveryService)));
-                _services.Add(Constants.Services.Discovery.HealthCheck.ServiceType.Http, (IPerformHealthCheckDiscoveryService)GetService(provider, typeof(HttpPerformHealthCheckDiscoveryService)));
+                _services.Add(Constants.Services.HealthCheck.ServiceType.Grpc, (IPerformHealthCheckRegistryService)GetService(provider, typeof(GrpcPerformHealthCheckRegistryService)));
+                _services.Add(Constants.Services.HealthCheck.ServiceType.Http, (IPerformHealthCheckRegistryService)GetService(provider, typeof(HttpPerformHealthCheckRegistryService)));
 
                 Initialized = true;
             }
@@ -108,12 +108,12 @@ namespace thZero.Registry.Services.Discovery.HealthCheck
             if ((entry.Data.HealthCheck == null) || !entry.Data.HealthCheck.Enabled)
                 return await Task.FromResult(Success());
 
-            string type = (!String.IsNullOrEmpty(entry.Data.HealthCheck.Type) ? entry.Data.HealthCheck.Type : Constants.Services.Discovery.HealthCheck.ServiceType.Http).ToLower();
+            string type = (!String.IsNullOrEmpty(entry.Data.HealthCheck.Type) ? entry.Data.HealthCheck.Type : Constants.Services.HealthCheck.ServiceType.Http).ToLower();
             if ((entry.Data.Grpc != null) && entry.Data.Grpc.Enabled)
-                type = Constants.Services.Discovery.HealthCheck.ServiceType.Grpc;
+                type = Constants.Services.HealthCheck.ServiceType.Grpc;
             Logger.LogDebug("type: {type}", type);
 
-            IPerformHealthCheckDiscoveryService service = _services[type];
+            IPerformHealthCheckRegistryService service = _services[type];
             if (service == null)
                 return await Task.FromResult(Error("Invalid healthcheck '{type}' service.", type));
 
@@ -143,8 +143,8 @@ namespace thZero.Registry.Services.Discovery.HealthCheck
         #region Fields
         private static bool Initialized = false;
         private static readonly object Lock = new();
-        private readonly IDiscoveryRepository _repository;
-        private readonly IDictionary<string, IPerformHealthCheckDiscoveryService> _services = new Dictionary<string, IPerformHealthCheckDiscoveryService>();
+        private readonly IRegistryRepository _repository;
+        private readonly IDictionary<string, IPerformHealthCheckRegistryService> _services = new Dictionary<string, IPerformHealthCheckRegistryService>();
         private static readonly AsyncLock _mutex = new();
         #endregion
     }
