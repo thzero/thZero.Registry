@@ -40,8 +40,7 @@ namespace thZero.Registry
         #region Protected Methods
         protected override IWebHostBuilder InitializeWebHostBuilder(IWebHostBuilder builder)
         {
-            return
-                base.InitializeWebHostBuilder(builder);
+            return base.InitializeWebHostBuilder(builder);
         }
 
         protected override void InitializeConfigurationBuilder(WebHostBuilderContext hostingContext, IConfigurationBuilder configurationBuilder)

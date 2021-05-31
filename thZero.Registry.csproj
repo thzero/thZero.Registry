@@ -40,6 +40,7 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\thZero.NetCore.Library.Asp.Instrumentation.AppMetrics\thZero.NetCore.Library.Asp.Instrumentation.AppMetrics.csproj" />
     <ProjectReference Include="..\thZero.NetCore.Library.Asp.Swagger\thZero.NetCore.Library.Asp.Swagger.csproj" />
     <ProjectReference Include="..\thZero.NetCore.Library.Data.Repository\thZero.NetCore.Library.Data.Repository.csproj" />
     <ProjectReference Include="..\thZero.NetCore.Library.Services.Json.Newtonsoft\thZero.NetCore.Library.Services.Json.Newtonsoft.csproj" />

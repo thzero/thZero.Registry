@@ -157,7 +157,8 @@ namespace thZero.Registry
             RegisterStartupExtension(new HttpSecurityNWebSecStartupExtension());
             RegisterStartupExtension(new SteeltoeInstrumentationStartupExtension());
             RegisterStartupExtension(new AppHealthChecksInstrumentationStartupExtension());
-            RegisterStartupExtension(new AppSwaggerStartupExtension());
+            RegisterStartupExtension(new AppMetricsInstrumentationStartupExtension());
+            RegisterStartupExtension(new AppSwaggerStartupExtension()); 
         }
         #endregion
 
@@ -224,6 +225,18 @@ namespace thZero.Registry
         #endregion
     }
 
+    public sealed class AppHealthChecksInstrumentationStartupExtension : HealthChecksInstrumentationStartupExtension
+    {
+        public AppHealthChecksInstrumentationStartupExtension()
+        {
+            Route = "/diagnostics/healthz";
+        }
+    }
+
+    public sealed class AppMetricsInstrumentationStartupExtension : MetricsInstrumentationStartupExtension
+    {
+    }
+
     public sealed class AppSwaggerStartupExtension : SwaggerStartupExtension
     {
         #region Protected Methods
@@ -278,13 +291,5 @@ namespace thZero.Registry
               });
         }
         #endregion
-    }
-
-    public sealed class AppHealthChecksInstrumentationStartupExtension : HealthChecksInstrumentationStartupExtension
-    {
-        public AppHealthChecksInstrumentationStartupExtension()
-        {
-            Route = "/diagnostics/healthz";
-        }
     }
 }
