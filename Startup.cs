@@ -37,6 +37,7 @@ using thZero.DependencyInjection;
 using thZero.Services;
 using thZero.Registry.Services;
 using thZero.Instrumentation;
+using thZero.Registry.Configuration;
 
 namespace thZero.Registry
 {
@@ -107,6 +108,21 @@ namespace thZero.Registry
         protected override void ConfigureServicesInitializeMvcPost(IServiceCollection services)
         {
             base.ConfigureServicesInitializeMvcPost(services);
+
+            services.AddSingleton<Services.IRegistryService, Services.RegistryService>();
+            services.AddSingleton<Services.IStaticResourcesRegistryService, Services.StaticResourcesRegistryService>();
+
+            services.Configure<MemRepositoryConfiguration>(this.Configuration.GetSection("RegistryRepository"));
+            services.AddSingleton<Repository.IRegistryRepository, Repository.MemRegistryRepository>();
+
+            services.AddSingleton<Services.HealthCheck.IHealthCheckRegistryService, Services.HealthCheck.HealthCheckRegistryService>();
+            services.AddSingleton<Services.HealthCheck.GrpcPerformHealthCheckRegistryService, Services.HealthCheck.GrpcPerformHealthCheckRegistryService>();
+            services.AddSingleton<Services.HealthCheck.HttpPerformHealthCheckRegistryService, Services.HealthCheck.HttpPerformHealthCheckRegistryService>();
+
+            services.AddSingleton<IServiceJson, ServiceJsonNewtonsoft>();
+
+            services.AddHostedService<Services.BackgroundDiscoveryServicer>();
+            services.AddHostedService<Services.HealthCheck.BackgroundHealthCheckRegistryService>();
 
             //services.AddAuthentication(options =>
             //{
@@ -188,19 +204,6 @@ namespace thZero.Registry
         public override void ConfigureServicesInitializeMvcPost(IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
         {
             base.ConfigureServicesInitializeMvcPost(services, env, configuration);
-
-            services.AddSingleton<Services.IRegistryService, Services.RegistryService>();
-            services.AddSingleton<Services.IStaticResourcesRegistryService, Services.StaticResourcesRegistryService>();
-            services.AddSingleton<Repository.IRegistryRepository, Repository.MemRegistryRepository>();
-
-            services.AddSingleton<Services.HealthCheck.IHealthCheckRegistryService, Services.HealthCheck.HealthCheckRegistryService>();
-            services.AddSingleton<Services.HealthCheck.GrpcPerformHealthCheckRegistryService, Services.HealthCheck.GrpcPerformHealthCheckRegistryService>();
-            services.AddSingleton<Services.HealthCheck.HttpPerformHealthCheckRegistryService, Services.HealthCheck.HttpPerformHealthCheckRegistryService>();
-
-            services.AddSingleton<IServiceJson, ServiceJsonNewtonsoft>();
-
-            services.AddHostedService<Services.BackgroundDiscoveryServicer>();
-            services.AddHostedService<Services.HealthCheck.BackgroundHealthCheckRegistryService>();
         }
 
         #endregion

@@ -18,25 +18,10 @@ limitations under the License.
  * ------------------------------------------------------------------------- */
 
 using System;
-using System.Threading.Tasks;
 
-using thZero.Instrumentation;
-using thZero.Registry.Requests;
-using thZero.Registry.Responses;
-using thZero.Responses;
-
-namespace thZero.Registry.Repository
+namespace thZero.Registry.Configuration
 {
-    public interface IRegistryRepository
+    public class MemRepositoryConfiguration
     {
-        void Initialize();
-        Task<SuccessResponse> CleanupAsync(IInstrumentationPacket packet, long cleanupInterval);
-        Task<SuccessResponse> DeregisterAsync(IInstrumentationPacket packet, RegistryRequest request);
-
-        Task<RegistrySuccessResponse> GetAsync(IInstrumentationPacket packet, RegistryRequest request);
-
-        Task<ListingRegistrySuccessResponse> ListingAsync(IInstrumentationPacket packet, ListingRegistryRequest request);
-
-        Task<SuccessResponse> RegistryAsync(IInstrumentationPacket packet, RegisterRegistryRequest request);
     }
 }

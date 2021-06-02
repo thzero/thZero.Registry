@@ -20,14 +20,16 @@ limitations under the License.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Nito.AsyncEx;
 
 using thZero.Data.Repository;
 using thZero.Instrumentation;
+using thZero.Registry.Configuration;
 using thZero.Registry.Data;
 using thZero.Registry.Requests;
 using thZero.Registry.Responses;
@@ -35,17 +37,17 @@ using thZero.Responses;
 
 namespace thZero.Registry.Repository
 {
-    public class MemRegistryRepository : RepositoryBase<MemRegistryRepository>, IRegistryRepository
+    public class MemRegistryRepository : RepositoryBase<MemRegistryRepository, MemRepositoryConfiguration>, IRegistryRepository
     {
-        public MemRegistryRepository(ILogger<MemRegistryRepository> logger) : base(logger)
-        {
-        }
-
-        public override void Initialize(IRepositoryConnectionConfiguration connectionConfiguration)
+        public MemRegistryRepository(IOptions<MemRepositoryConfiguration> config, ILogger<MemRegistryRepository> logger) : base(config, logger)
         {
         }
 
         #region Public Methods
+        public void Initialize()
+        {
+        }
+
         public async Task<SuccessResponse> CleanupAsync(IInstrumentationPacket packet, long cleanupInterval)
         {
             Enforce.AgainstNull(() => packet);
