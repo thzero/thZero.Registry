@@ -19,7 +19,7 @@ limitations under the License.
 
 using System;
 
-using thZero.Responses;
+using thZero.Requests;
 
 namespace thZero.Registry.Requests
 {

@@ -20,7 +20,7 @@ limitations under the License.
 using System;
 using System.ComponentModel.DataAnnotations;
 
-using thZero.Responses;
+using thZero.Requests;
 
 namespace thZero.Registry.Requests
 {

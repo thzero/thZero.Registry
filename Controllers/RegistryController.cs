@@ -23,7 +23,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using thZero.AspNetCore;
 using thZero.AspNetCore.Mvc;
 using thZero.Registry.Requests;
 using thZero.Utilities;
