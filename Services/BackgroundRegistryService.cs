@@ -47,6 +47,8 @@ namespace thZero.Registry.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
+            const string Declaration = "StartAsync";
+
             int heartbeatInterval = _config.Registry?.Discovery?.HeartbeatInterval > 0 ? _config.Registry.Discovery.HeartbeatInterval : 45;
             _timer = new Timer(o => {
                 Task.Run(async () => {
@@ -56,7 +58,7 @@ namespace thZero.Registry.Services
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, null);
+                        _logger.LogError2(Declaration, ex);
                     }
                 }).Wait(cancellationToken);
             },

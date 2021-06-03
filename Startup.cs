@@ -36,6 +36,7 @@ using thZero.Configuration;
 using thZero.DependencyInjection;
 using thZero.Services;
 using thZero.Registry.Services;
+
 using thZero.Instrumentation;
 using thZero.Registry.Configuration;
 

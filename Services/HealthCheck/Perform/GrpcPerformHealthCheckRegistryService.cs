@@ -42,6 +42,8 @@ namespace thZero.Registry.Services.HealthCheck
         #region Public Methods
         public async Task<SuccessResponse> Perform(IInstrumentationPacket packet, RegistryData registry)
         {
+            const string Declaration = "Perform";
+
             Enforce.AgainstNull(() => packet);
             Enforce.AgainstNull(() => registry);
 
@@ -68,12 +70,12 @@ namespace thZero.Registry.Services.HealthCheck
             }
             catch (TaskCanceledException tcex)
             {
-                Logger.LogError(tcex, null);
+                Logger.LogError2(Declaration, tcex);
                 return await Task.FromResult(Error("timeout"));
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, null);
+                Logger.LogError2(Declaration, ex);
             }
 
             return await Task.FromResult(Error());

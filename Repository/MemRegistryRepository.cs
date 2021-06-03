@@ -76,7 +76,7 @@ namespace thZero.Registry.Repository
 
                 Parallel.ForEach(deletable, entry =>
                 {
-                    Logger.LogInformation("\tremove stale name: '%s'", entry);
+                    Logger.LogInformation("\tremove stale name: '{entry}'", entry);
                     _registry.Remove(entry);
                 });
             }

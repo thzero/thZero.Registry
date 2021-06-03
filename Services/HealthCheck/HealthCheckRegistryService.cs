@@ -117,12 +117,12 @@ namespace thZero.Registry.Services.HealthCheck
             if (service == null)
                 return await Task.FromResult(Error("Invalid healthcheck '{type}' service.", type));
 
-            Logger.LogInformation("\tHealth check for '{date}' via '{type}", entry.Data.Name, type);
+            Logger.LogInformation("\tHealth check for '{name}' via '{type}", entry.Data.Name, type);
 
             SuccessResponse responsePerform = await service.Perform(entry.Packet, entry.Data);
             entry.Status = responsePerform.Success;
 
-            Logger.LogInformation("\t...healthcheck for '{date}' ${ response.success ? 'succeeded' : 'failed'}.", entry.Data.Name, responsePerform.Success);
+            Logger.LogInformation("\t...healthcheck for '{name}' ${success}.", entry.Data.Name, responsePerform.Success ? "succeeded" : "failed");
 
             // TODO
             //await _serviceMonitoring.Gauge(entry.Packet, 'discovery.registry.healthcheck', responsePerform.Success ? 1 : 0, null, { tag: entry.Data.Name });

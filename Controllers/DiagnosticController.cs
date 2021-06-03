@@ -49,7 +49,7 @@ namespace thZero.Registry.Controllers
             }
             catch (Exception ex)
             {
-                Logger?.LogError(Declaration, ex);
+                Logger?.LogError2(Declaration, ex);
             }
 
             return new StatusCodeResult((int)System.Net.HttpStatusCode.ServiceUnavailable);
@@ -70,7 +70,7 @@ namespace thZero.Registry.Controllers
             }
             catch (Exception ex)
             {
-                Logger?.LogError(Declaration, ex);
+                Logger?.LogError2(Declaration, ex);
             }
 
             return new StatusCodeResult((int)System.Net.HttpStatusCode.ServiceUnavailable);
@@ -92,7 +92,7 @@ namespace thZero.Registry.Controllers
             }
             catch (Exception ex)
             {
-                Logger?.LogError(Declaration, ex);
+                Logger?.LogError2(Declaration, ex);
             }
 
             return new StatusCodeResult((int)System.Net.HttpStatusCode.ServiceUnavailable);
@@ -115,7 +115,7 @@ namespace thZero.Registry.Controllers
             }
             catch (Exception ex)
             {
-                Logger?.LogError(Declaration, ex);
+                Logger?.LogError2(Declaration, ex);
             }
 
             return new StatusCodeResult((int)System.Net.HttpStatusCode.ServiceUnavailable);
