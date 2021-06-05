@@ -18,69 +18,38 @@ limitations under the License.
  * ------------------------------------------------------------------------- */
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using thZero.AspNetCore.Services;
 using thZero.Instrumentation;
 
 namespace thZero.Registry.Services.HealthCheck
 {
-    public class BackgroundHealthCheckRegistryService : IHostedService, IDisposable
+    public class BackgroundHealthCheckRegistryService : BackgroundService<BackgroundHealthCheckRegistryService>
     {
-        public BackgroundHealthCheckRegistryService(IHealthCheckRegistryService service, IOptions<Configuration.Application> config, IServiceProvider provider, ILogger<BackgroundHealthCheckRegistryService> logger)
+        public BackgroundHealthCheckRegistryService(IHealthCheckRegistryService service, IOptions<Configuration.Application> config, IServiceProvider provider, ILogger<BackgroundHealthCheckRegistryService> logger) : base(logger)
         {
             _config = config.Value;
-            _logger = logger;
             _provider = provider;
             _service = service;
         }
 
         #region Public Methods
-        public void Dispose()
+        protected override async Task Run()
         {
-            _timer?.Dispose();
-        }
-
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            const string Declaration = "StartAsync";
-
-            int heartbeatInterval = _config.Registry?.HealthCheck?.HeartbeatInterval > 0 ? _config.Registry.HealthCheck.HeartbeatInterval : 45;
-            _timer = new Timer(o => {
-                Task.Run(async () => {
-                    try
-                    {
-                        await _service.PerformAsync((IInstrumentationPacket)_provider?.GetService(typeof(IInstrumentationPacket)));
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError2(Declaration, ex);
-                    }
-                }).Wait(cancellationToken);
-            },
-            null,
-            TimeSpan.Zero,
-            TimeSpan.FromSeconds(heartbeatInterval));
-
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
+            await _service.PerformAsync((IInstrumentationPacket)_provider?.GetService(typeof(IInstrumentationPacket)));
         }
         #endregion
 
         #region Fields
         private readonly Configuration.Application _config;
-        private readonly ILogger<BackgroundHealthCheckRegistryService> _logger;
         private readonly IServiceProvider _provider;
         private readonly IHealthCheckRegistryService _service;
-        private Timer _timer;
+
+        protected override int HeartbeatInterval => throw new NotImplementedException();
         #endregion
     }
 }
