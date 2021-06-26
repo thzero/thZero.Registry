@@ -18,6 +18,7 @@ limitations under the License.
  * ------------------------------------------------------------------------- */
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -38,7 +39,7 @@ namespace thZero.Registry.Services.HealthCheck
         }
 
         #region Public Methods
-        protected override async Task Run()
+        protected override async Task StartAsyncI(CancellationToken cancellationToken)
         {
             await _service.PerformAsync((IInstrumentationPacket)_provider?.GetService(typeof(IInstrumentationPacket)));
         }
@@ -48,8 +49,6 @@ namespace thZero.Registry.Services.HealthCheck
         private readonly Configuration.Application _config;
         private readonly IServiceProvider _provider;
         private readonly IHealthCheckRegistryService _service;
-
-        protected override int HeartbeatInterval => throw new NotImplementedException();
         #endregion
     }
 }
