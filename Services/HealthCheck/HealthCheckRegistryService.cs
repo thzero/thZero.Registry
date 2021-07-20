@@ -28,6 +28,7 @@ using Microsoft.Extensions.Options;
 using Nito.AsyncEx;
 
 using thZero.Instrumentation;
+using thZero.Registry.Configuration;
 using thZero.Registry.Data;
 using thZero.Registry.Repository;
 using thZero.Registry.Requests;
@@ -37,9 +38,9 @@ using thZero.Services;
 
 namespace thZero.Registry.Services.HealthCheck
 {
-    public sealed class HealthCheckRegistryService : ConfigServiceBase<HealthCheckRegistryService, Configuration.Application>, IHealthCheckRegistryService
+    public sealed class HealthCheckRegistryService : ConfigServiceBase<HealthCheckRegistryService, RegistryConfiguration>, IHealthCheckRegistryService
     {
-        public HealthCheckRegistryService(IRegistryRepository repository, IOptions<Configuration.Application> config, IServiceProvider provider, ILogger<HealthCheckRegistryService> logger) : base(config, logger)
+        public HealthCheckRegistryService(IRegistryRepository repository, IOptions<RegistryConfiguration> config, IServiceProvider provider, ILogger<HealthCheckRegistryService> logger) : base(config, logger)
         {
             _repository = repository;
 
@@ -64,7 +65,7 @@ namespace thZero.Registry.Services.HealthCheck
             }
 
             // Get the packet via service locator pattern; generally considered an anti-pattern.
-            int cleanupInterval = Config.Registry?.Discovery?.CleanupInterval > 0 ? Config.Registry.Discovery.CleanupInterval : 45;
+            int cleanupInterval = Config?.Discovery?.CleanupInterval > 0 ? Config.Discovery.CleanupInterval : 45;
 
             using (await _mutex.LockAsync())
             {

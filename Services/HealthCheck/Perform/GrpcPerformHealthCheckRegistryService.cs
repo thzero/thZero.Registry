@@ -18,6 +18,7 @@ limitations under the License.
  * ------------------------------------------------------------------------- */
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -26,16 +27,15 @@ using Microsoft.Extensions.Options;
 using Grpc.Net.Client;
 
 using thZero.Instrumentation;
+using thZero.Registry.Configuration;
 using thZero.Registry.Data;
 using thZero.Responses;
-using thZero.Services;
-using System.Threading;
 
 namespace thZero.Registry.Services.HealthCheck
 {
     public sealed class GrpcPerformHealthCheckRegistryService : PerformHealthCheckRegistryService<GrpcPerformHealthCheckRegistryService>, IPerformHealthCheckRegistryService
     {
-        public GrpcPerformHealthCheckRegistryService(IOptions<Configuration.Application> config, ILogger<GrpcPerformHealthCheckRegistryService> logger) : base(config, logger)
+        public GrpcPerformHealthCheckRegistryService(IOptions<RegistryConfiguration> config, ILogger<GrpcPerformHealthCheckRegistryService> logger) : base(config, logger)
         {
         }
 

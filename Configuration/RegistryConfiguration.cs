@@ -20,14 +20,33 @@ limitations under the License.
 using System;
 using System.Collections.Generic;
 
-using thZero.Configuration;
+using thZero.Registry.Data;
 
 namespace thZero.Registry.Configuration
 {
-    public sealed class Application : ApiApplication<ApplicationDefaults, ApplicationEmail>
+    public class RegistryConfiguration
     {
-        public Application()
-        {
-        }
+        #region Public Properties
+        public RegistryDiscovery Discovery { get; set; } = new RegistryDiscovery();
+        public RegistryHealthCheck HealthCheck { get; set; } = new RegistryHealthCheck();
+        #endregion
+    }
+
+    public class RegistryDiscovery
+    {
+        #region Public Properties
+        public int CleanupInterval { get; set; }
+        public int HeartbeatInterval { get; set; }
+        public ICollection<RegistryData> Resources { get; set; } = new List<RegistryData>();
+        #endregion
+    }
+
+    public class RegistryHealthCheck
+    {
+        #region Public Properties
+        public int CleanupInterval { get; set; }
+        public int HeartbeatInterval { get; set; }
+        public int Timeout { get; set; }
+        #endregion
     }
 }

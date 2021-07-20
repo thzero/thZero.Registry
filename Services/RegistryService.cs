@@ -24,6 +24,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using thZero.Instrumentation;
+using thZero.Registry.Configuration;
 using thZero.Registry.Repository;
 using thZero.Registry.Requests;
 using thZero.Registry.Responses;
@@ -32,9 +33,9 @@ using thZero.Services;
 
 namespace thZero.Registry.Services
 {
-    public sealed class RegistryService : ConfigServiceBase<RegistryService, Configuration.Application>, IRegistryService
+    public sealed class RegistryService : ConfigServiceBase<RegistryService, RegistryConfiguration>, IRegistryService
     {
-        public RegistryService(IRegistryRepository repository, IOptions<Configuration.Application> config, ILogger<RegistryService> logger) : base(config, logger)
+        public RegistryService(IRegistryRepository repository, IOptions<RegistryConfiguration> config, ILogger<RegistryService> logger) : base(config, logger)
         {
             _repository = repository;
         }
@@ -44,7 +45,7 @@ namespace thZero.Registry.Services
         {
             Enforce.AgainstNull(() => packet);
 
-            int cleanupInterval = Config.Registry?.Discovery?.HeartbeatInterval > 0 ? Config.Registry.Discovery.CleanupInterval : 45;
+            int cleanupInterval = Config?.Discovery?.HeartbeatInterval > 0 ? Config.Discovery.CleanupInterval : 45;
             return await _repository.CleanupAsync(packet, cleanupInterval);
         }
 

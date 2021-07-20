@@ -27,6 +27,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using thZero.Instrumentation;
+using thZero.Registry.Configuration;
 using thZero.Registry.Data;
 using thZero.Responses;
 
@@ -34,7 +35,7 @@ namespace thZero.Registry.Services.HealthCheck
 {
     public sealed class HttpPerformHealthCheckRegistryService : PerformHealthCheckRegistryService<HttpPerformHealthCheckRegistryService>, IPerformHealthCheckRegistryService
     {
-        public HttpPerformHealthCheckRegistryService(IOptions<Configuration.Application> config, ILogger<HttpPerformHealthCheckRegistryService> logger) : base(config, logger)
+        public HttpPerformHealthCheckRegistryService(IOptions<RegistryConfiguration> config, ILogger<HttpPerformHealthCheckRegistryService> logger) : base(config, logger)
         {
             _client.Timeout = TimeSpan.FromSeconds(15);
             _client.DefaultRequestHeaders.Accept.Clear();

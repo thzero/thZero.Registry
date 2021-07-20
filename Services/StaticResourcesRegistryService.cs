@@ -26,6 +26,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using thZero.Instrumentation;
+using thZero.Registry.Configuration;
 using thZero.Registry.Data;
 using thZero.Registry.Repository;
 using thZero.Registry.Requests;
@@ -34,9 +35,9 @@ using thZero.Services;
 
 namespace thZero.Registry.Services
 {
-    public sealed class StaticResourcesRegistryService : ConfigServiceBase<StaticResourcesRegistryService, Configuration.Application>, IStaticResourcesRegistryService
+    public sealed class StaticResourcesRegistryService : ConfigServiceBase<StaticResourcesRegistryService, RegistryConfiguration>, IStaticResourcesRegistryService
     {
-        public StaticResourcesRegistryService(IRegistryRepository repository, IOptions<Configuration.Application> config, ILogger<StaticResourcesRegistryService> logger) : base(config, logger)
+        public StaticResourcesRegistryService(IRegistryRepository repository, IOptions<RegistryConfiguration> config, ILogger<StaticResourcesRegistryService> logger) : base(config, logger)
         {
             _repository = repository;
         }
@@ -44,7 +45,7 @@ namespace thZero.Registry.Services
         #region Public Methods
         public async Task<SuccessResponse> LoadAsync(IInstrumentationPacket packet)
         {
-            ICollection<RegistryData> resources = Config.Registry?.Discovery?.Resources?.Count > 0 ? Config.Registry.Discovery.Resources : null;
+            ICollection<RegistryData> resources = Config?.Discovery?.Resources?.Count > 0 ? Config.Discovery.Resources : null;
             if (resources == null)
                 return await Task.FromResult(Success());
 

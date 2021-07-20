@@ -22,13 +22,14 @@ using System;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using thZero.Registry.Configuration;
 using thZero.Services;
 
 namespace thZero.Registry.Services.HealthCheck
 {
-    public abstract class PerformHealthCheckRegistryService<TService> : ConfigServiceBase<TService, Configuration.Application>
+    public abstract class PerformHealthCheckRegistryService<TService> : ConfigServiceBase<TService, RegistryConfiguration>
     {
-        public PerformHealthCheckRegistryService(IOptions<Configuration.Application> config, ILogger<TService> logger) : base(config, logger)
+        public PerformHealthCheckRegistryService(IOptions<RegistryConfiguration> config, ILogger<TService> logger) : base(config, logger)
         {
         }
 
@@ -37,7 +38,7 @@ namespace thZero.Registry.Services.HealthCheck
         {
             get
             {
-                int? timeout = Config?.Registry?.HealthCheck?.HeartbeatInterval;
+                int? timeout = Config?.HealthCheck?.HeartbeatInterval;
                 return timeout.HasValue && timeout.Value > 0 ? timeout.Value : 5;
             }
         }

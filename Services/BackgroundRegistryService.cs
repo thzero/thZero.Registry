@@ -26,12 +26,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using thZero.Instrumentation;
+using thZero.Registry.Configuration;
 
 namespace thZero.Registry.Services
 {
     public class BackgroundDiscoveryServicer : IHostedService, IDisposable
     {
-        public BackgroundDiscoveryServicer(IRegistryService service, IOptions<Configuration.Application> config, IServiceProvider provider, ILogger<BackgroundDiscoveryServicer> logger)
+        public BackgroundDiscoveryServicer(IRegistryService service, IOptions<RegistryConfiguration> config, IServiceProvider provider, ILogger<BackgroundDiscoveryServicer> logger)
         {
             _config = config.Value;
             _logger = logger;
@@ -49,7 +50,7 @@ namespace thZero.Registry.Services
         {
             const string Declaration = "StartAsync";
 
-            int heartbeatInterval = _config.Registry?.Discovery?.HeartbeatInterval > 0 ? _config.Registry.Discovery.HeartbeatInterval : 45;
+            int heartbeatInterval = _config?.Discovery.HeartbeatInterval > 0 ? _config.Discovery.HeartbeatInterval : 45;
             _timer = new Timer(o => {
                 Task.Run(async () => {
                     try
@@ -76,7 +77,7 @@ namespace thZero.Registry.Services
         #endregion
 
         #region Fields
-        private readonly Configuration.Application _config;
+        private readonly RegistryConfiguration _config;
         private readonly ILogger<BackgroundDiscoveryServicer> _logger;
         private readonly IServiceProvider _provider;
         private readonly IRegistryService _service;
