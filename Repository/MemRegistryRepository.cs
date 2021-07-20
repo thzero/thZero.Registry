@@ -129,7 +129,7 @@ namespace thZero.Registry.Repository
 
             ListingRegistrySuccessResponse response = new()
             {
-                Data = values.ToList()
+                Results = values.ToList()
             };
             return await Task.FromResult(response);
         }

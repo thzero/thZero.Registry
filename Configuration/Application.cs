@@ -25,7 +25,7 @@ using thZero.Registry.Data;
 
 namespace thZero.Registry.Configuration
 {
-    public sealed class Application : ApiApplication<ApplicationDefaults, ApplicationEmail, Authorization>
+    public sealed class Application : ApiApplication<ApplicationDefaults, ApplicationEmail>
     {
         public Application()
         {

@@ -71,7 +71,7 @@ namespace thZero.Registry.Services.HealthCheck
                 cleanupInterval *= 1000;
 
                 long now = DateTime.Now.Millisecond;
-                await listResponse.Data.Select(l => new Wrapper(packet, l)).ToAsyncEnumerable().AsyncParallelForEach<Wrapper>(Perform,
+                await listResponse.Results.Select(l => new Wrapper(packet, l)).ToAsyncEnumerable().AsyncParallelForEach<Wrapper>(Perform,
                     20,
                     TaskScheduler.Default
                 );
