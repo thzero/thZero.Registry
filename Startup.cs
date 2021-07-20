@@ -116,6 +116,12 @@ namespace thZero.Registry
             services.Configure<MemRepositoryConfiguration>(this.Configuration.GetSection("RegistryRepository"));
             services.AddSingleton<Repository.IRegistryRepository, Repository.MemRegistryRepository>();
 
+            IConfigurationSection config = Configuration.GetSection("Registry");
+            if (config == null)
+                throw new Exception("Invalid Registry config.");
+
+            services.Configure<RegistryConfiguration>(config);
+
             services.AddSingleton<Services.HealthCheck.IHealthCheckRegistryService, Services.HealthCheck.HealthCheckRegistryService>();
             services.AddSingleton<Services.HealthCheck.GrpcPerformHealthCheckRegistryService, Services.HealthCheck.GrpcPerformHealthCheckRegistryService>();
             services.AddSingleton<Services.HealthCheck.HttpPerformHealthCheckRegistryService, Services.HealthCheck.HttpPerformHealthCheckRegistryService>();

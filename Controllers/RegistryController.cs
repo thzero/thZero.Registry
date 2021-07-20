@@ -49,7 +49,7 @@ namespace thZero.Registry.Controllers
             {
                 duration = Stopwatch.Start(Declaration);
 
-                await InitializeJsonPostResultAsync(request, null, async (model) =>
+                return await InitializeJsonPostResultAsync(request, null, async (model) =>
                 {
                     return JsonDelete(await _discoveryService.Deregister(Instrumentation, request));
                 });
@@ -77,9 +77,9 @@ namespace thZero.Registry.Controllers
             {
                 duration = Stopwatch.Start(Declaration);
 
-                await InitializeJsonPostResultAsync(request, null, async (model) =>
+                return await InitializeJsonPostResultAsync(request, null, async (model) =>
                 {
-                    return JsonPost(await _discoveryService.Listing(Instrumentation, request));
+                    return await _discoveryService.Listing(Instrumentation, request);
                 });
             }
             catch (Exception ex)
@@ -105,7 +105,7 @@ namespace thZero.Registry.Controllers
             {
                 duration = Stopwatch.Start(Declaration);
 
-                await InitializeJsonPostResultAsync(request, null, async (model) =>
+                return await InitializeJsonPostResultAsync(request, null, async (model) =>
                 {
                     return JsonPost(await _discoveryService.Register(Instrumentation, request));
                 });
@@ -132,7 +132,7 @@ namespace thZero.Registry.Controllers
             {
                 duration = Stopwatch.Start(Declaration);
 
-                await InitializeJsonGetResultAsync(request, null, async (model) =>
+                return await InitializeJsonGetResultAsync(request, null, async (model) =>
                 {
                     return JsonGet(await _discoveryService.Get(Instrumentation, request));
                 });
