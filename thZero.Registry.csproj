@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <None Remove="Protos\healthcheck.proto" />
-    <None Remove="Protos\registry.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,10 +33,9 @@
 	  <PackageReference Include="Zeroconf" Version="3.4.2" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Protobuf Include="Protos\healthcheck.proto" GrpcServices="Client" />
-		<Protobuf Include="Protos\registry.proto" GrpcServices="Server" />
-	</ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="Protos\healthcheck.proto" GrpcServices="Client" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\thZero.NetCore.Library.Asp.Instrumentation.AppMetrics\thZero.NetCore.Library.Asp.Instrumentation.AppMetrics.csproj" />
@@ -55,6 +53,11 @@
     <ProjectReference Include="..\thZero.NetCore.Library.Data\thZero.NetCore.Library.Data.csproj" />
     <ProjectReference Include="..\thZero.NetCore.Library.Factories.DryIoc\thZero.NetCore.Library.Factories.DryIoc.csproj" />
     <ProjectReference Include="..\thZero.NetCore.Library.Services.Localization\thZero.NetCore.Library.Services.Localization.csproj" />
+    <ProjectReference Include="..\thZero.Registry.Grpc\thZero.Registry.Grpc.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\healthcheck.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

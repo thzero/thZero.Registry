@@ -30,6 +30,7 @@ using thZero.Instrumentation;
 using thZero.Registry.Configuration;
 using thZero.Registry.Data;
 using thZero.Responses;
+using thZero.Registry.Responses;
 
 namespace thZero.Registry.Services.HealthCheck
 {

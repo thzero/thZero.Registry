@@ -29,6 +29,7 @@ using Microsoft.Extensions.Options;
 using thZero.Instrumentation;
 using thZero.Registry.Configuration;
 using thZero.Registry.Data;
+using thZero.Registry.Responses;
 using thZero.Responses;
 
 namespace thZero.Registry.Services.HealthCheck
@@ -89,14 +90,6 @@ namespace thZero.Registry.Services.HealthCheck
 
         #region Fields
         private static readonly HttpClient _client = new();
-        #endregion
-    }
-
-    public class ResourceRegistryResponse : SuccessResponse
-    {
-        #region Public Methods
-        public RegistryData Registry { get; set; }
-        public UriBuilder Uri { get; set; }
         #endregion
     }
 }
